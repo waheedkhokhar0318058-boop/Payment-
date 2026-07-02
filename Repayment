@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Link + QR</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.box{
+background:#fff;
+padding:20px;
+border-radius:10px;
+width:320px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#28a745;
+color:#fff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+#qrcode{
+margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Payment Generator</h2>
+
+<input id="company" placeholder="Company Name">
+<input id="customer" placeholder="Customer Name">
+<input id="amount" placeholder="Amount">
+<input id="upi" placeholder="UPI ID (example@oksbi)">
+
+<button onclick="generate()">Generate Link + QR</button>
+
+<p id="link"></p>
+
+<div id="qrcode"></div>
+
+</div>
+
+<script>
+
+function generate(){
+
+let company = document.getElementById("company").value;
+let customer = document.getElementById("customer").value;
+let amount = document.getElementById("amount").value;
+let upi = document.getElementById("upi").value;
+
+let base = window.location.href.split("?")[0];
+
+let link = base +
+"?company=" + encodeURIComponent(company) +
+"&customer=" + encodeURIComponent(customer) +
+"&amount=" + encodeURIComponent(amount) +
+"&upi=" + encodeURIComponent(upi);
+
+document.getElementById("link").innerHTML =
+"<a href='" + link + "' target='_blank'>" + link + "</a>";
+
+// Clear old QR
+document.getElementById("qrcode").innerHTML = "";
+
+// UPI QR format
+let upiLink = "upi://pay?pa=" + upi + "&pn=" + customer + "&am=" + amount + "&cu=INR";
+
+// Generate QR
+new QRCode(document.getElementById("qrcode"), {
+text: upiLink,
+width: 200,
+height: 200
+});
+
+}
+
+</script>
+
+</body>
+</html>
