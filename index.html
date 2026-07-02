@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPI Payment</title>
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+.card{
+background:#fff;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+text-align:center;
+width:300px;
+}
+button{
+background:#0F9D58;
+color:#fff;
+border:none;
+padding:12px 20px;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+width:100%;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2 id="name"></h2>
+<p>Amount: ₹<span id="amount"></span></p>
+<p>UPI: <span id="upi"></span></p>
+<button onclick="pay()">Pay Now</button>
+</div>
+
+<script>
+const params=new URLSearchParams(window.location.search);
+
+const name=params.get("name")||"Waheed";
+const amount=params.get("amount")||"100";
+const upi=params.get("upi")||"waheed@oksbi";
+
+document.getElementById("name").innerText=name;
+document.getElementById("amount").innerText=amount;
+document.getElementById("upi").innerText=upi;
+
+function pay(){
+window.location.href=`upi://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`;
+}
+</script>
+
+</body>
+</html>
